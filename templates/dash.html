@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script>
+var intervalId = setInterval(function() {
+	UserAction()
+	// do something with myJson
+}, 800);
+
+function UserAction() {
+  var xhttp = new XMLHttpRequest();
+  xhttp.addEventListener("load", function() {
+       if (this.readyState == 4 && this.status == 200) {
+           //console.log("Interval reached every 1s",this.responseText);
+           var json = JSON.stringify(eval("(" + this.responseText + ")"));
+           console.log(json)
+           const obj = JSON.parse(json);
+           document.querySelector("#distance").innerHTML  =obj.distance;
+           document.querySelector("#button").innerHTML    =obj.button;
+           document.querySelector("#buzzer").innerHTML    =obj.buzzer;
+           document.querySelector("#car").innerHTML       =obj.car;
+           document.querySelector("#chair").innerHTML     =obj.chair;
+           document.querySelector("#mouse").innerHTML      =obj.mouse;
+           document.querySelector("#person").innerHTML    =obj.person;
+       }
+  });
+  const {
+    host, hostname, href, origin, pathname, port, protocol, search
+  } = window.location
+  xhttp.open("GET",'getData');
+  xhttp.send();
+}
+
+function onBuzzerChange(){
+  let checkbox = document.getElementById('buzzerSwitch');
+  let buzzer = "Off"
+  if (checkbox.checked) {
+    buzzer = "On"
+  } else {
+    buzzer = "Off"
+  }
+  var xhttp = new XMLHttpRequest();
+  xhttp.addEventListener("load", function() {
+         if (this.readyState == 4 && this.status == 200) {
+  
+         }
+    });
+    xhttp.open("POST",'setPeripheral');
+    xhttp.setRequestHeader("Content-Type", "application/json");    
+    //params = "user="+username+"&pass="+password;
+    params = "{\"buzzer\":\""+buzzer+"\"}";
+    console.log("params : ",params)
+    xhttp.send(params);
+}
+
+function updateTime() {
+    var currentTime = new Date();
+    var year    = currentTime.getFullYear();
+    var month   = currentTime.getMonth() + 1; // (0-11)
+    var date    = currentTime.getDate();
+    var hours = currentTime.getHours();
+    var minutes = currentTime.getMinutes();
+    var seconds = currentTime.getSeconds();
+    if (minutes < 10){
+        minutes = "0" + minutes;
+    }
+    if (seconds < 10){
+        seconds = "0" + seconds;
+    }
+    var v = hours + ":" + minutes + ":" + seconds + " ";
+    if(hours > 11){
+        v+="PM";
+    } else {
+        v+="AM"
+    }
+    var dt =   addZero(date)+ " / " +addZero(month) + " / " +year;
+    setTimeout("updateTime()",1000);
+    document.querySelector("#timeT").innerHTML="Time: "+v+"</br>Date: "+dt;      
+}
+
+window.onload = function () {
+updateTime();
+}
+
+function addZero(i) {
+  if (i < 10) {
+    i = "0" + i
+  };  
+  return i;
+}
+</script>
+<style>
+.ag-format-container {
+  width: 1142px;
+  margin: 0 auto;
+}
+
+
+body {
+    line-height: 1.2;
+    font-family: Arial, Verdana, Helvetica, sans-serif;
+    font-size: 14px;
+    -webkit-text-size-adjust: 100%;
+}
+.ag-courses_box {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: start;
+  -ms-flex-align: start;
+  align-items: flex-start;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+
+  padding: 50px 0;
+}
+.ag-courses_item {
+  -ms-flex-preferred-size: calc(33.33333% - 30px);
+  flex-basis: calc(33.33333% - 30px);
+
+  margin: 0 15px 30px;
+
+  overflow: hidden;
+
+  border-radius: 28px;
+}
+.ag-courses-item_link {
+  display: block;
+  padding: 30px 20px;
+  background-color: #b3b3b3;
+
+  overflow: hidden;
+
+  position: relative;
+  text-decoration: none;
+}
+.ag-courses-item_link:hover,
+.ag-courses-item_link:hover .ag-courses-item_date {
+  text-decoration: none;
+  color: #FFF;
+}
+.ag-courses-item_link:hover .ag-courses-item_bg {
+  -webkit-transform: scale(10);
+  -ms-transform: scale(10);
+  transform: scale(10);
+  text-decoration: none;
+}
+.ag-courses-item_title {
+  min-height: 87px;
+  margin: 0 0 25px;
+
+  overflow: hidden;
+
+  font-weight: bold;
+  font-size: 30px;
+  color: #FFF;
+
+  z-index: 2;
+  position: relative;
+}
+.ag-courses-item_date-box {
+  font-size: 18px;
+  color: #FFF;
+
+  z-index: 2;
+  position: relative;
+}
+.ag-courses-item_date {
+  font-weight: bold;
+  color: #201f1e;
+
+  -webkit-transition: color .5s ease;
+  -o-transition: color .5s ease;
+  transition: color .5s ease
+}
+.ag-courses-item_bg {
+  height: 128px;
+  width: 128px;
+  background-color: #f9b234;
+
+  z-index: 1;
+  position: absolute;
+  top: -75px;
+  right: -75px;
+
+  border-radius: 50%;
+
+  -webkit-transition: all .5s ease;
+  -o-transition: all .5s ease;
+  transition: all .5s ease;
+}
+.ag-courses_item:nth-child(2n) .ag-courses-item_bg {
+  background-color: #3ecd5e;
+}
+.ag-courses_item:nth-child(3n) .ag-courses-item_bg {
+  background-color: #e44002;
+}
+.ag-courses_item:nth-child(4n) .ag-courses-item_bg {
+  background-color: #952aff;
+}
+.ag-courses_item:nth-child(5n) .ag-courses-item_bg {
+  background-color: #cd3e94;
+}
+.ag-courses_item:nth-child(6n) .ag-courses-item_bg {
+  background-color: #4c49ea;
+}
+
+
+
+@media only screen and (max-width: 979px) {
+  .ag-courses_item {
+    -ms-flex-preferred-size: calc(50% - 30px);
+    flex-basis: calc(50% - 30px);
+  }
+  .ag-courses-item_title {
+    font-size: 24px;
+  }
+}
+
+@media only screen and (max-width: 767px) {
+  .ag-format-container {
+    width: 96%;
+  }
+
+}
+@media only screen and (max-width: 639px) {
+  .ag-courses_item {
+    -ms-flex-preferred-size: 100%;
+    flex-basis: 100%;
+  }
+  .ag-courses-item_title {
+    min-height: 72px;
+    line-height: 1;
+
+    font-size: 24px;
+  }
+  .ag-courses-item_link {
+    padding: 22px 40px;
+  }
+  .ag-courses-item_date-box {
+    font-size: 16px;
+  }
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+  z-index: 2;
+  margin: 0 0 5px;
+}
+
+.switch input { 
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #2196F3;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+</style>
+</head>
+<body>
+<div class="ag-format-container">
+  <div class="ag-courses_box">
+    <div class="ag-courses_item">
+      <a href="#" class="ag-courses-item_link">
+        <div class="ag-courses-item_bg"></div>
+
+        <div class="ag-courses-item_title">
+          Distance: <span id="distance" />
+        </div>
+
+        <div class="ag-courses-item_date-box">
+          Type:
+          <span class="ag-courses-item_date">
+            Ultrasonic Sensor
+          </span>
+        </div>
+      </a>
+    </div>
+
+    <div class="ag-courses_item">
+      <a href="#" class="ag-courses-item_link">
+        <div class="ag-courses-item_bg"></div>
+
+        <div class="ag-courses-item_title">
+          Digital In: <span id="button" />
+        </div>
+
+        <div class="ag-courses-item_date-box">
+          Type:
+          <span class="ag-courses-item_date">
+            Button
+          </span>
+        </div>
+      </a>
+    </div>
+
+    <div class="ag-courses_item">
+      <a href="#" class="ag-courses-item_link">
+        <div class="ag-courses-item_bg"></div>
+
+        <div class="ag-courses-item_title">
+          Digital Out: <span id="buzzer" />
+        </div>
+        <label class="switch">
+          <input id="buzzerSwitch" type="checkbox" onchange="onBuzzerChange()">
+          <span class="slider round"></span>
+        </label>
+
+        <div class="ag-courses-item_date-box">
+          Type:
+          <span class="ag-courses-item_date">
+            Buzzer
+          </span>
+        </div>
+      </a>
+    </div>
+
+    <div class="ag-courses_item">
+      <a href="#" class="ag-courses-item_link">
+        <div class="ag-courses-item_bg"></div>
+
+        <div class="ag-courses-item_title">
+          Object Car: <span id="car" />
+        </div>
+
+        <div class="ag-courses-item_date-box">
+          Type:
+          <span class="ag-courses-item_date">
+            Vision
+          </span>
+        </div>
+      </a>
+    </div>
+
+    <div class="ag-courses_item">
+      <a href="#" class="ag-courses-item_link">
+        <div class="ag-courses-item_bg"></div>
+
+        <div class="ag-courses-item_title">
+          Object Chair: <span id="chair" />
+        </div>
+
+        <div class="ag-courses-item_date-box">
+          Type:
+          <span class="ag-courses-item_date">
+            Vision
+          </span>
+        </div>
+      </a>
+    </div>
+
+    <div class="ag-courses_item">
+      <a href="#" class="ag-courses-item_link">
+        <div class="ag-courses-item_bg"></div>
+
+        <div class="ag-courses-item_title">
+          Object Mouse: <span id="mouse" />
+			
+        </div>
+		        <div class="ag-courses-item_date-box">
+          Type:
+          <span class="ag-courses-item_date">
+            Vision
+          </span>
+        </div>
+      </a>
+    </div>
+
+    <div class="ag-courses_item">
+      <a href="#" class="ag-courses-item_link">
+        <div class="ag-courses-item_bg">
+        </div>
+        <div class="ag-courses-item_title">
+          Object Person: <span id="person" />
+        </div>
+		 <div class="ag-courses-item_date-box">
+          Type:
+          <span class="ag-courses-item_date">
+            Vision
+          </span>
+        </div>
+      </a>
+    </div>
+
+    <div class="ag-courses_item">
+      <a href="#" class="ag-courses-item_link">
+        <div class="ag-courses-item_bg"></div>
+
+        <div class="ag-courses-item_title">
+          <span id="timeT" />
+        </div>
+        <div class="ag-courses-item_date-box">
+          Type:
+          <span class="ag-courses-item_date">
+            Data
+          </span>
+        </div>
+      </a>
+    </div>
+
+  </div>
+</div>
+</body>
+</html>
