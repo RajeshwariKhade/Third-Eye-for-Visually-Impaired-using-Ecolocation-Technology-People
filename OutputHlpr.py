@@ -1,10 +1,9 @@
 ######## Webcam Object Detection Using Tensorflow-trained Classifier #########
-#
-# Author: Dhananjay Khairnnar
-# Date: 16/05/2023
-# Email: khairnardm@gmail.com
-# Country: India
-# github: http://www.github.com/8-DK
+
+# Author: Rajeshwari kahde
+
+# Email: rajeshwarikhade49@gmail.com
+
 ##############################################################################
 
 import RPi.GPIO as GPIO
