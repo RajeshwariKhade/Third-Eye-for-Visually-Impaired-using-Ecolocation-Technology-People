@@ -1,6 +1,6 @@
 ######## Webcam Object Detection Using Tensorflow-trained Classifier #########
 
-# Author: Rajeshwari kahde
+# Author: Rajeshwari khade
 
 # Email: rajeshwarikhade49@gmail.com
 
